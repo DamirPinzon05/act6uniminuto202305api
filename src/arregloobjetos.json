@@ -1,0 +1,16 @@
+[
+    { 
+        "id": "1",
+        "titulo": "blog ¿Qué es el medioambiente y por qué es clave para la vida?",
+        "subtitulo": "medio ambiente",
+        "parrafo": "El medioambiente es el espacio en el que se desarrolla la vida de los distintos organismos favoreciendo su interacción. En él se encuentran tanto seres vivos como elementos sin vida y otros creados por la mano del hombre.",
+        "final": "A título individual, cada uno de nosotros también podemos tomar nuestras propias medidas con una óptica orientada hacia la sostenibilidad, por ejemplo, realizando un uso más eficiente y consciente del agua, reciclando la basura y evitando el uso de plásticos, cuidando y manteniendo los espacios verdes en las ciudades, no utilizando medios de transporte basados en combustibles fósiles y sí en energías renovables a gran escala o placas solares para autoconsumo, e incentivando la movilidad sostenible, o llevando a cabo un uso racional de la electricidad en casa apostando por la iluminación basada en el bajo consumo."
+    },
+    {
+        "id": "2",
+        "titulo": "trabajo social",
+        "subtitulo": "que es el trabajo social",
+        "parrafo": "El trabajo social es una profesión práctica y una disciplina académica que reconoce que los factores históricos, socioeconómicos, culturales, geográficos, políticos y personales interconectados sirven como oportunidades y/o barreras para el bienestar y el desarrollo humano.",
+        "final": "Es la responsabilidad de los trabajadores sociales en todo el mundo defender, enriquecer y hacer realidad los principios y valores reflejados en esta definición. La definición del trabajo social sólo tiene sentido cuando los trabajadores sociales se comprometen activamente a sus valores y visión."
+    }
+]
