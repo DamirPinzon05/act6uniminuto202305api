@@ -1,52 +1,64 @@
-const { Router } = require('express'); 
-const router = Router(); 
-const _ = require('underscore'); /*se puede asignar _ subguion para declararlo como variable */
 
-const Datosgenerales = require ('../arregloobjetos.json');
+const mongoose = require('mongoose');
+const { Router } = require('express');
+const router = Router();
+const _ = require('underscore');
 
-router.get('/', (req, res)=> {
-    res.json(Datosgenerales);
+// Define el esquema de tu modelo
+const datosSchema = new mongoose.Schema({
+    titulo: String,
+    subtitulo: String,
+    parrafo: String,
+    final: String
 });
 
-router.post('/', (req, res)=> {
-    const {titulo, subtitulo, parrafo, final}= req.body;
+// Crea tu modelo de Mongoose
+const Datosgenerales = mongoose.model('datosgenerales', datosSchema);
+
+// Conéctate a la base de datos de MongoDB en Atlas
+mongoose.connect('mongodb+srv://<user_bd>:<lBNUMJP3hJUlPtVB>@<cluster0>.mongodb.net/<blog>?retryWrites=true&w=majority', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+    .then(() => console.log('Conexión exitosa a MongoDB Atlas'))
+    .catch((err) => console.log(err));
+
+// Definir rutas para operaciones CRUD
+router.get('/', (req, res) => {
+    Datosgenerales.find()
+        .then((datos) => res.json(datos))
+        .catch((err) => res.status(500).json({ error: err }));
+});
+
+router.post('/', (req, res) => {
+    const { titulo, subtitulo, parrafo, final } = req.body;
     if (titulo && subtitulo && parrafo && final) {
-        const id = Datosgenerales.length + 1;
-        const newdata = {...req.body, id};
-        Datosgenerales.push(newdata);
-        res.json(Datosgenerales);
-    }else{
-        res.send('falta un dato revisar por favor');
+        const newData = new Datosgenerales({ titulo, subtitulo, parrafo, final });
+        newData.save()
+            .then(() => res.json(newData))
+            .catch((err) => res.status(500).json({ error: err }));
+    } else {
+        res.send('Falta un dato, por favor revise');
     }
 });
 
-router.put('/:id', (req, res)=> {
-    const { id} = req.params;
-    const {titulo, subtitulo, parrafo, final}= req.body;
+router.put('/:id', (req, res) => {
+    const { id } = req.params;
+    const { titulo, subtitulo, parrafo, final } = req.body;
     if (titulo && subtitulo && parrafo && final) {
-        _.each(Datosgenerales, (dato, i) => {
-            if (dato.id == id) {
-                dato.titulo = titulo;
-                dato.subtitulo = subtitulo;
-                dato.parrafo = parrafo;
-                dato.final = final;
-            }
-        });
-        res.json(Datosgenerales);
-    }else{
-        res.status(500).json({error: 'hay un error no se puede procesar revise bien'});
+        Datosgenerales.findByIdAndUpdate(id, { titulo, subtitulo, parrafo, final }, { new: true })
+            .then((datoActualizado) => res.json(datoActualizado))
+            .catch((err) => res.status(500).json({ error: err }));
+    } else {
+        res.status(500).json({ error: 'Hay un error, no se puede procesar. Por favor, revise' });
     }
 });
 
-router.delete('/:id', (req, res)=> {
-    const { id} = req.params;
-    _.each(Datosgenerales, (dato, i) => {
-        if (dato.id == id) {
-            Datosgenerales.splice(i, 1);
-            
-        }
-    }); /*el metodo each de la libreria underscore recorre los arreglos  */
-    res.send(Datosgenerales)
+router.delete('/:id', (req, res) => {
+    const { id } = req.params;
+    Datosgenerales.findByIdAndDelete(id)
+        .then(() => res.send('Eliminado correctamente'))
+        .catch((err) => res.status(500).json({ error: err }));
 });
 
 module.exports = router;
